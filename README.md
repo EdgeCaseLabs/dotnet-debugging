@@ -1,7 +1,7 @@
 # .NET Debugger Patterns
 
 
-This code demonstrates the various ways to debug a .NET application in VS Code. Both options are compatible with hotreloading.
+This code demonstrates the various ways to debug a .NET application in VS Code.
 
 ### Option 1: Debugging on local machine
 

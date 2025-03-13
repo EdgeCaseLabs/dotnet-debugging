@@ -10,7 +10,7 @@
             "request": "attach",
             "pipeTransport": {
                 "pipeProgram": "docker",
-                "pipeArgs": ["exec", "-i", "dotnet-testapp-app-1", "sh", "-c"],
+                "pipeArgs": ["exec", "-i", "dotnet-debugging-app-1", "sh", "-c"],
                 "debuggerPath": "/remote_debugger/vsdbg",
                 "pipeCwd": "${workspaceRoot}",
                 "quoteArgs": false

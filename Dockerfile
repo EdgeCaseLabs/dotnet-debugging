@@ -7,15 +7,15 @@ RUN apt-get update && \
     apt-get install -y procps && \
     rm -rf /var/lib/apt/lists/*
 
-COPY . .
-RUN dotnet restore
-RUN dotnet build -c Debug
-
-# Enable remote debugging by installing vsdbg
+    # Enable remote debugging by installing vsdbg
 RUN curl -sSL https://aka.ms/getvsdbgsh | /bin/sh /dev/stdin -v latest -l /remote_debugger
 
 # Enable debugging
 ENV ASPNETCORE_ENVIRONMENT=Development
 
+COPY . .
+RUN dotnet restore
+RUN dotnet build -c Debug
+
 # Use watch to enable hot reload and better debugging experience
-ENTRYPOINT ["dotnet", "watch", "--project", "dotnet-testapp.csproj", "--", "--wait-for-debugger"]
+ENTRYPOINT ["dotnet", "run", "--project", "dotnet-testapp.csproj", "--", "--wait-for-debugger"]

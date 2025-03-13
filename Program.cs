@@ -15,7 +15,7 @@ namespace DotnetTestApp
                 Console.WriteLine("Debugger attached! Continuing...");
             }
             
-            Console.WriteLine("Hello, World! blah");
+            Console.WriteLine("Hello, World!");
         }
     }
 }
