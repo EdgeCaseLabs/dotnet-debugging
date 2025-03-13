@@ -1,11 +1,11 @@
 services:
-  app:
-    build: .
+  vscode-debugger:
+    build:
+      context: .
+      dockerfile: Dockerfile.vscode
     volumes:
       - .:/app
-      - vsdbg:/remote_debugger:rw
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
       - DOTNET_USE_POLLING_FILE_WATCHER=1
       # Enable debugging
       - DOTNET_WATCH_RESTART_ON_RUDE_EDIT=true
@@ -16,6 +16,13 @@ services:
     # Enable container to wait for debugger
     security_opt:
       - seccomp:unconfined
-
-volumes:
-  vsdbg:
+  cursor-debugger:
+    build:
+      context: .
+      dockerfile: Dockerfile.cursor
+    volumes:
+      - .:/app
+    ports:
+      - "5005:5005"
+      # VS remote debugger port
+      - "2222:2222"

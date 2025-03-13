@@ -7,8 +7,8 @@ RUN apt-get update && \
     apt-get install -y procps && \
     rm -rf /var/lib/apt/lists/*
 
-    # Enable remote debugging by installing vsdbg
-RUN curl -sSL https://aka.ms/getvsdbgsh | /bin/sh /dev/stdin -v latest -l /remote_debugger
+# Enable remote debugging by installing vsdbg
+RUN curl -sSL https://aka.ms/getvsdbgsh | /bin/sh /dev/stdin -v latest -l /vsdbg
 
 # Enable debugging
 ENV ASPNETCORE_ENVIRONMENT=Development

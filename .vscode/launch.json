@@ -5,13 +5,24 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": ".NET Core Launch",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/bin/Debug/net9.0/dotnet-testapp",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "stopAtEntry": false,
+            "console": "internalConsole"
+        },
+        {
             "name": ".NET Core Docker Attach",
             "type": "coreclr",
             "request": "attach",
             "pipeTransport": {
                 "pipeProgram": "docker",
-                "pipeArgs": ["exec", "-i", "dotnet-debugging-app-1", "sh", "-c"],
-                "debuggerPath": "/remote_debugger/vsdbg",
+                "pipeArgs": ["exec", "-i", "dotnet-debugging-vscode-debugger-1", "sh", "-c"],
+                "debuggerPath": "/vsdbg/vsdbg",
                 "pipeCwd": "${workspaceRoot}",
                 "quoteArgs": false
             },
@@ -22,15 +33,29 @@
             "justMyCode": true
         },
         {
-            "name": ".NET Core Launch",
+            "name": ".NET Core Docker Attach (Cursor)",
             "type": "coreclr",
-            "request": "launch",
-            "preLaunchTask": "build",
-            "program": "${workspaceFolder}/bin/Debug/net9.0/dotnet-testapp",
-            "args": [],
-            "cwd": "${workspaceFolder}",
-            "stopAtEntry": false,
-            "console": "internalConsole"
-        }
+            "request": "attach",
+            "pipeTransport": {
+                "pipeProgram": "docker",
+                "pipeArgs": ["exec", "-i", "dotnet-debugging-cursor-debugger-1", "sh", "-c"],
+                "debuggerPath": "/netcoredbg/netcoredbg",
+                "debuggerArgs": ["--interpreter=vscode"],
+                "pipeCwd": "${workspaceRoot}",
+                "quoteArgs": false
+            },
+            "console": "internalConsole",
+            "env": {
+                "DOTNET_ENVIRONMENT": "Development"
+            },            
+            "processId": "${command:pickRemoteProcess}",
+            "sourceFileMap": {
+                "/app": "${workspaceFolder}"
+            },
+            "justMyCode": true,
+            "requireExactSource": false,
+            "suppressJITOptimizations": true,
+            "debugPort": 5005
+        },        
     ]
 }

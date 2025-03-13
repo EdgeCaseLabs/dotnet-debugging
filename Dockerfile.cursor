@@ -1,0 +1,30 @@
+FROM mcr.microsoft.com/dotnet/sdk:9.0-noble
+
+WORKDIR /app
+
+# Install process utilities & libicu74
+RUN apt-get update && \
+    apt-get install -y procps libicu74 && \
+    rm -rf /var/lib/apt/lists/*
+
+# Create directory for netcoredbg
+RUN mkdir -p /netcoredbg
+
+# Enable remote debugging by installing netcoredbg based on architecture (this is useful for debugging on non-VS Code IDEs)
+RUN arch=$(uname -m) && \
+    if [ "$arch" = "aarch64" ]; then \
+        curl -sSL https://github.com/Samsung/netcoredbg/releases/download/3.1.2-1054/netcoredbg-linux-arm64.tar.gz | tar -xzf - -C /netcoredbg --strip-components=1; \
+    else \
+        curl -sSL https://github.com/Samsung/netcoredbg/releases/download/3.1.2-1054/netcoredbg-linux-amd64.tar.gz | tar -xzf - -C /netcoredbg --strip-components=1; \
+    fi && \
+    chmod +x /netcoredbg/netcoredbg
+
+# Enable debugging
+ENV ASPNETCORE_ENVIRONMENT=Development
+
+COPY . .
+RUN dotnet restore
+RUN dotnet build -c Debug
+
+# Use watch to enable hot reload and better debugging experience
+ENTRYPOINT ["dotnet", "run", "--project", "dotnet-testapp.csproj", "--", "--wait-for-debugger"]
