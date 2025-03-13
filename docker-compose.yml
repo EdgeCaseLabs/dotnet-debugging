@@ -1,0 +1,21 @@
+services:
+  app:
+    build: .
+    volumes:
+      - .:/app
+      - vsdbg:/remote_debugger:rw
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - DOTNET_USE_POLLING_FILE_WATCHER=1
+      # Enable debugging
+      - DOTNET_WATCH_RESTART_ON_RUDE_EDIT=true
+    ports:
+      - "5005:5005"
+      # VS remote debugger port
+      - "2222:2222"
+    # Enable container to wait for debugger
+    security_opt:
+      - seccomp:unconfined
+
+volumes:
+  vsdbg:
